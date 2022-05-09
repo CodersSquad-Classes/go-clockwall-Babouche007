@@ -29,8 +29,14 @@ func readTime(port string) string {
 }
 
 func main() {
-	arg := os.Args[1]
-	//split arg each =
-	args := strings.Split(arg, "=")
-	fmt.Println(args[0] + " : " + readTime(args[1]))
+	length := len(os.Args)
+	i := 1
+	for length > 1 {
+		arg := os.Args[i]
+		//split arg each =
+		args := strings.Split(arg, "=")
+		fmt.Println(args[0] + " : " + readTime(args[1]))
+		length--
+		i++
+	}
 }
