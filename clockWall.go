@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -35,7 +36,6 @@ func main() {
 		arg := os.Args[i]
 		//split arg each =
 		args := strings.Split(arg, "=")
-		fmt.Println(args[0])
 		if len(args) != 2 || args[0] == "" {
 			fmt.Println("Usage: clockWall [Timezone]=localhost:<port>")
 			break
@@ -43,6 +43,11 @@ func main() {
 		port := strings.Split(args[1], ":")
 		if port[0] != "localhost" {
 			fmt.Println("Usage: clockWall [Timezone]=localhost:<port>")
+			break
+		}
+		//verify that the port is a number
+		if _, err := strconv.Atoi(port[1]); err != nil {
+			fmt.Println("Error with port : port should be a number")
 			break
 		}
 		fmt.Println(args[0] + " : " + readTime(args[1]))
