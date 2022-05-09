@@ -2,6 +2,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"net"
@@ -21,17 +22,21 @@ func handleConn(c net.Conn) {
 }
 
 func main() {
-	port := "localhost:" + os.Args[2]
-	listener, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for {
-		conn, err := listener.Accept()
+	if os.Args[1] != "-port" {
+		fmt.Println("Usage: clockServer -port <port>")
+	} else {
+		port := "localhost:" + os.Args[2]
+		listener, err := net.Listen("tcp", port)
 		if err != nil {
-			log.Print(err) // e.g., connection aborted
-			continue
+			log.Fatal(err)
 		}
-		go handleConn(conn) // handle connections concurrently
+		for {
+			conn, err := listener.Accept()
+			if err != nil {
+				log.Print(err) // e.g., connection aborted
+				continue
+			}
+			go handleConn(conn) // handle connections concurrently
+		}
 	}
 }

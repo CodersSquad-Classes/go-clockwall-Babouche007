@@ -35,6 +35,16 @@ func main() {
 		arg := os.Args[i]
 		//split arg each =
 		args := strings.Split(arg, "=")
+		fmt.Println(args[0])
+		if len(args) != 2 || args[0] == "" {
+			fmt.Println("Usage: clockWall [Timezone]=localhost:<port>")
+			break
+		}
+		port := strings.Split(args[1], ":")
+		if port[0] != "localhost" {
+			fmt.Println("Usage: clockWall [Timezone]=localhost:<port>")
+			break
+		}
 		fmt.Println(args[0] + " : " + readTime(args[1]))
 		length--
 		i++
