@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func readTime(port string) string {
@@ -27,9 +28,14 @@ func readTime(port string) string {
 	return time
 }
 
+type Timezone struct {
+	name, port string
+}
+
 func main() {
 	length := len(os.Args)
 	i := 1
+	timezones := make([]*Timezone, 0)
 	for length > 1 {
 		arg := os.Args[i]
 
@@ -50,9 +56,16 @@ func main() {
 			os.Exit(1)
 		}
 
-		fmt.Println(args[0] + " : " + readTime(args[1]))
+		timezones = append(timezones, &Timezone{args[0], args[1]})
 
 		length--
 		i++
+	}
+	for true {
+		time.Sleep(time.Second)
+		fmt.Printf("\033[H\033[2J")
+		for _, t := range timezones {
+			fmt.Println(t.name + " : " + readTime(t.port))
+		}
 	}
 }
