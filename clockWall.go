@@ -62,10 +62,10 @@ func main() {
 		i++
 	}
 	for true {
-		time.Sleep(time.Second)
 		fmt.Printf("\033[H\033[2J")
 		for _, t := range timezones {
 			fmt.Println(t.name + " : " + readTime(t.port))
 		}
+		time.Sleep(time.Second)
 	}
 }
